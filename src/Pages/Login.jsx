@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import {Link} from 'react-router-dom'
+import {Link,useNavigate} from 'react-router-dom'
 
 const Login = () => {
 
     const[email,setEmail] = useState('');
     const[password,setPassword] = useState('');
+    const navigate = useNavigate();
 
     const submitHandler = (e)=>{
         e.preventDefault();
@@ -14,9 +15,12 @@ const Login = () => {
     <div>
         <div className="flex justify-between items-center px-5 sm:px-10 lg:px-20 py-4 bg-white">
             <img
+            onClick={()=>{
+                navigate('/');
+            }}
             src="/LogoText.png"
             alt="Efficio Logo"
-            className="w-40 sm:w-48 lg:w-56"
+            className="w-40 sm:w-48 lg:w-56 cursor-pointer"
             />
         </div>
 
@@ -50,6 +54,7 @@ const Login = () => {
                     </label>
                     <input
                     type="password"
+                    value={password}
                     onChange={(e)=>{
                         setPassword(e.target.value);
                     }}  

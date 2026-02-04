@@ -16,8 +16,8 @@ const Home = () => {
                 Welcome to <span className="text-blue-600">Efficio</span>
             </h1>
 
-            <h3 className="text-lg sm:text-xl lg:text-2xl text-gray-600 mb-6">
-                Smart Task Management for Modern Teams
+            <h3 className="text-lg lg:text-2xl text-gray-600 mb-6">
+                Smart Task Management
             </h3>
             <p className="text-gray-500 max-w-2xl mb-8 leading-relaxed text-center">
                 Efficio is a role-based employee task management web application
