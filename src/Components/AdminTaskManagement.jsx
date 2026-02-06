@@ -37,8 +37,8 @@ const AdminTasks = () => {
         </div>
 
         {/* Task List */}
-        <div className="p-4 sm:p-6 h-[89vh]">
-          <div className="bg-white shadow-md rounded-lg overflow-scroll h-[85vh]">
+        <div className="p-4 sm:p-6 h-[84vh]">
+          <div className="bg-white shadow-md rounded-lg overflow-scroll h-[84vh]">
             {/* Table Header (desktop) */}
             <div className="hidden md:flex bg-gray-100 px-4 py-3 font-medium sticky top-0">
               <span className="w-1/4">Task</span>
@@ -79,7 +79,7 @@ const AdminTasks = () => {
                 </button>
               </div>
             </div>
-
+            
           </div>
         </div>
       </div>

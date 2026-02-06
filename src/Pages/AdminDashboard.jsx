@@ -9,7 +9,7 @@ const AdminDashboard = () => {
       {/* Main Content */}
       <div className="flex-1">
         {/* Header */}
-        <h1 className="text-2xl sm:text-3xl lg:text-4xl px-20 lg:px-5 py-5 border-b font-semibold bg-white">
+        <h1 className="text-2xl sm:text-3xl lg:text-4xl px-20 lg:px-5 py-5 border-b font-semibold bg-white sticky top-0 z-10">
           Admin Dashboard
         </h1>
 
@@ -40,7 +40,7 @@ const AdminDashboard = () => {
           {/* Assigned Tasks */}
           <div className="bg-white shadow-md rounded-lg mt-10 overflow-hidden">
             <h1 className="text-xl sm:text-2xl font-semibold px-4 py-4 border-b">
-              Assigned Tasks
+              Recently Assigned Tasks
             </h1>
 
             {/* Table Header (Desktop only) */}
