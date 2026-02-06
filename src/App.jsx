@@ -6,6 +6,8 @@ import Signup from './Pages/Signup'
 import AdminDashboard from './Pages/AdminDashboard'
 import AdminTaskManagement from './Components/AdminTaskManagement'
 import AdminEmployeeManagement from './Components/AdminEmployeeManagement'
+import EmployeeDashboard from './Pages/EmployeeDashboard'
+import EmployeeTasks from './Components/EmployeeTasks'
 
 const App = () => {
   return (
@@ -17,6 +19,8 @@ const App = () => {
         <Route path='/admin' element={<AdminDashboard/>}/>
         <Route path='/admin-tasks' element={<AdminTaskManagement/>}/>
         <Route path='/admin-employees' element={<AdminEmployeeManagement/>}/>
+        <Route path='/employee' element={<EmployeeDashboard/>}/>
+        <Route path='/employee-tasks' element={<EmployeeTasks/>}/>
       </Routes>
     </div>
   )

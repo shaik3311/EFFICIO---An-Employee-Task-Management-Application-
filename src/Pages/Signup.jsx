@@ -34,7 +34,7 @@ const Signup = () => {
         <div className="flex justify-center items-center px-4 h-[70vh] lg:mt-10 mt-20">
             <form className='w-full max-w-md bg-blue-700 rounded-xl shadow-lg p-8'>
                 <h2 className="text-3xl font-bold text-center text-white mb-2">
-                    Welcome Back
+                    Welcome to, EFFICIO
                 </h2>
                 <p className="text-center text-gray-200 mb-6">
                     Sigup to continue to Efficio

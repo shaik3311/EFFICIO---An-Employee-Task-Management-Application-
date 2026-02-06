@@ -1,39 +1,33 @@
-import React, { useState } from "react";
-import Adminsidebar from "../Components/Adminsidebar";
+import React,{useState} from 'react'
+import Employeesidebar from './Employeesidebar'
 import { Plus, X } from "lucide-react";
 
-const AdminTasks = () => {
-  const [open, setOpen] = useState(false);
-  const [openEdit, setOpenEdit] = useState(false);
-  const[task,setTask] = useState('');
-  const[assign,setAssign] = useState('');
-  const[description,setDescription] = useState('');
 
-  const submitHandler = (e)=>{
-    e.preventDefault();
-    console.log(`new task:${task} is created and assigned for ${assign}`);
-    setTask('');
-    setAssign('');
-    setDescription('');
-  }
-
+const EmployeeTasks = () => {
+    const [open, setOpen] = useState(false);
+      const [openEdit, setOpenEdit] = useState(false);
+      const[task,setTask] = useState('');
+      const[assign,setAssign] = useState('');
+      const[description,setDescription] = useState('');
+    
+      const submitHandler = (e)=>{
+        e.preventDefault();
+        console.log(`new task:${task} is created and assigned for ${assign}`);
+        setTask('');
+        setAssign('');
+        setDescription('');
+      }
   return (
     <div className="flex min-h-screen bg-gray-50">
-      <Adminsidebar />
+      <Employeesidebar />
 
       {/* Main Content */}
       <div className="flex-1 ">
         {/* Header */}
         <div className="flex justify-between items-center px-4 sm:px-6 py-6 border-b bg-white">
-          <h1 className="text-2xl sm:text-3xl font-semibold px-10">Manage Tasks</h1>
+          <h1 className="text-2xl sm:text-3xl font-semibold px-15 lg:px-2">Manage Tasks</h1>
 
-          <button
-            onClick={() => setOpen(true)}
-            className="flex items-center gap-2 bg-blue-600 text-white px-3 lg:px-4 py-2 rounded-lg hover:bg-blue-700 active:scale-95"
-          >
-            <Plus size={18} />
-            Add Task
-          </button>
+          
         </div>
 
         {/* Task List */}
@@ -72,10 +66,7 @@ const AdminTasks = () => {
                   setOpenEdit(true);
                  }}
                  className="px-4 py-2 bg-gray-200 rounded-lg text-sm hover:bg-gray-300">
-                  Edit
-                </button>
-                <button className="px-4 py-2 bg-red-200 text-red-700 rounded-lg text-sm hover:bg-red-300">
-                  Delete
+                  Update
                 </button>
               </div>
             </div>
@@ -147,7 +138,7 @@ const AdminTasks = () => {
         <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
           <div className="bg-white w-[90%] sm:w-[420px] rounded-lg p-6">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold">Edit Task</h2>
+              <h2 className="text-xl font-semibold">Update Task Status</h2>
               <button onClick={() => setOpenEdit(false)}>
                 <X />
               </button>
@@ -159,26 +150,6 @@ const AdminTasks = () => {
                 }
               }
              className="flex flex-col gap-4">
-              <input
-                type="text"
-                value={task}
-                onChange={(e)=>{
-                  setTask(e.target.value);
-                }}
-                placeholder="Task Title"
-                className="border px-4 py-2 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
-              />
-
-              <select
-              value={assign}
-              onChange={(e)=>{
-                setAssign(e.target.value);
-              }}
-              className="border px-4 py-2 rounded-lg outline-none">
-                <option>Assign to Employee</option>
-                <option>Shaik</option>
-                <option>Rahul</option>
-              </select>
               <select
               value={assign}
               onChange={(e)=>{
@@ -191,28 +162,21 @@ const AdminTasks = () => {
                 <option>Completed</option>
               </select>
 
-              <textarea
-                value={description}
-                onChange={(e)=>{
-                  setDescription(e.target.value);
-                }}
-                placeholder="Task Description"
-                rows="3"
-                className="border px-4 py-2 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
-              />
-
               <button
                 type="submit"
+                onClick={()=>{
+                   setOpenEdit(false); 
+                }}
                 className="bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 active:scale-95"
               >
-                Edit Task
+                Update Status
               </button>
             </form>
           </div>
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default AdminTasks;
+export default EmployeeTasks
