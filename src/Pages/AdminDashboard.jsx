@@ -45,38 +45,28 @@ const AdminDashboard = () => {
 
             {/* Table Header (Desktop only) */}
             <div className="hidden md:flex bg-gray-100 px-4 py-3 font-medium">
-              <span className="w-1/4">Task</span>
-              <span className="w-1/4">Assigned To</span>
-              <span className="w-1/4 px-3">Status</span>
-              <span className="w-1/4 text-center">Actions</span>
+              <span className="w-1/3">Task</span>
+              <span className="w-1/3">Assigned To</span>
+              <span className="w-1/3 px-3">Status</span>
             </div>
 
             {/* Row */}
             <div className="flex flex-col lg:items-center md:flex-row gap-4 md:gap-0 px-4 py-4 border-b">
-              <div className="md:w-1/4">
+              <div className="md:w-1/3">
                 <p className="text-sm text-gray-500 md:hidden">Task</p>
                 <p className="font-medium">UI Design</p>
               </div>
 
-              <div className="md:w-1/4">
+              <div className="md:w-1/3">
                 <p className="text-sm text-gray-500 md:hidden">Assigned To</p>
                 <p>Shaik</p>
               </div>
 
-              <div className="md:w-1/4">
+              <div className="md:w-1/3">
                 <p className="text-sm text-gray-500 md:hidden">Status</p>
                 <span className="px-3 py-1 rounded-full bg-yellow-100 text-yellow-700 text-sm">
                   Pending
                 </span>
-              </div>
-
-              <div className="md:w-1/4 flex gap-3 md:justify-center">
-                <button className="px-4 py-2 bg-gray-200 rounded-lg text-sm hover:bg-gray-300 active:scale-95">
-                  Edit
-                </button>
-                <button className="px-4 py-2 bg-red-200 text-red-700 rounded-lg text-sm hover:bg-red-300 active:scale-95">
-                  Delete
-                </button>
               </div>
             </div>
             
