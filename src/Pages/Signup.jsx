@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
-import {Link,useNavigate} from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import {Link,useNavigate, useNavigation} from 'react-router-dom'
+import { getFromStorage, setToStorage } from '../Utilities/localStorage';
 
 
 const Signup = () => {
@@ -8,16 +9,53 @@ const Signup = () => {
     const[password,setPassword] = useState('');
     const[isAdmin,setIsAdmin] = useState(false);
     const navigate = useNavigate();
+    const[employees,setEmployees] = useState([]);
+    const[admins,setAdmins] = useState([]);
 
+
+    // sigup handling 
     const submitHandler = (e)=>{
         e.preventDefault();
-        console.log(`Account created with Name:${name} email:${email} password:${password} IsAdmin:${isAdmin}`);  
+        console.log(`Account created with Name:${name} email:${email} password:${password} IsAdmin:${isAdmin}`);
+        if(isAdmin){
+            const adminData = getFromStorage('admin');
+            const newAdminData = [...adminData];
+            const newAdmin = {
+                "id":crypto.randomUUID(),
+                "name":name,
+                "email":email,
+                "password":password,
+                "isAdmin":isAdmin
+            }
+            newAdminData.push(newAdmin);
+            setToStorage('admins',newAdminData);
+            navigate('/login');
+        }else{
+            const employeeData = getFromStorage('employee');
+            const newEmployeeData = [...employeeData];
+            const newEmployee = {
+                "id":crypto.randomUUID(),
+                "name":name,
+                "email":email,
+                "password":password,
+                "isAdmin":isAdmin,
+                "tasks":[]
+            }
+            newEmployeeData.push(newEmployee);
+            setToStorage('employees',newEmployeeData);
+            navigate('/login');
+        }
         
         setName('');
         setEmail('');
         setPassword('');
         setIsAdmin(false);
+
     }
+
+
+
+
   return (
     <div className=''>
         <div className="flex justify-between items-center px-5 sm:px-10 lg:px-20 py-4 bg-white">

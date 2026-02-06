@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {Routes,Route} from 'react-router-dom'
 import Home from './Pages/Home'
 import Login from './Pages/Login'
@@ -8,8 +8,14 @@ import AdminTaskManagement from './Components/AdminTaskManagement'
 import AdminEmployeeManagement from './Components/AdminEmployeeManagement'
 import EmployeeDashboard from './Pages/EmployeeDashboard'
 import EmployeeTasks from './Components/EmployeeTasks'
+import { setToStorage,getFromStorage } from './Utilities/localStorage'
 
 const App = () => {
+  useEffect(() => {
+    setToStorage();
+  },)
+  
+
   return (
     <div>
       <Routes>

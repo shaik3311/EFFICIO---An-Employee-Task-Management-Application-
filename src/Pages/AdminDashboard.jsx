@@ -1,7 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Adminsidebar from "../Components/Adminsidebar";
+import { getFromStorage } from "../Utilities/localStorage";
 
 const AdminDashboard = () => {
+  const [currentUser,setCurrentUser] = useState({});
+  useEffect(() => {
+    setCurrentUser(getFromStorage('loggedInUser'));
+  }, [])
+
+  console.log(currentUser);
+  
+  
   return (
     <div className="flex min-h-screen bg-gray-50">
       <Adminsidebar />
@@ -16,7 +25,7 @@ const AdminDashboard = () => {
         {/* Page Content */}
         <div className="p-4 sm:p-6">
           <h1 className="text-2xl sm:text-3xl font-semibold mt-2">
-            Welcome, Admin!
+            Welcome, {currentUser.name}!
           </h1>
 
           {/* Stats Cards */}

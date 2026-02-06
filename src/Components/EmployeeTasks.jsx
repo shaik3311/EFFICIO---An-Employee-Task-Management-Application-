@@ -36,7 +36,7 @@ const EmployeeTasks = () => {
             {/* Table Header (desktop) */}
             <div className="hidden md:flex bg-gray-100 px-4 py-3 font-medium sticky top-0">
               <span className="w-1/4">Task</span>
-              <span className="w-1/4">Assigned To</span>
+              <span className="w-1/4">Assigned By</span>
               <span className="w-1/4">Status</span>
               <span className="w-1/4 text-center">Actions</span>
             </div>
@@ -49,7 +49,7 @@ const EmployeeTasks = () => {
               </div>
 
               <div className="md:w-1/4">
-                <p className="text-sm text-gray-500 md:hidden">Assigned To</p>
+                <p className="text-sm text-gray-500 md:hidden">Assigned By</p>
                 <p>Shaik</p>
               </div>
 

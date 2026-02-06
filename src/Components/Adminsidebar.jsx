@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
   ClipboardList,
@@ -11,6 +11,14 @@ import {
 
 const AdminSidebar = () => {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+
+  
+  // logout handling 
+  const handleLogOut = () => {
+    localStorage.removeItem("loggedInUser");
+    navigate('/login');
+  }
 
   const linkStyle = ({ isActive }) =>
     `flex items-center gap-3 px-4 py-3 rounded-lg text-lg transition-all
@@ -76,6 +84,7 @@ const AdminSidebar = () => {
 
         {/* Logout */}
         <button
+          onClick={handleLogOut}
           className="flex items-center gap-3 px-4 py-3 rounded-lg
           text-white hover:bg-red-500/80 transition-all"
         >

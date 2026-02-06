@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import {Link,useNavigate} from 'react-router-dom'
+import { getFromStorage, setToStorage } from '../Utilities/localStorage';
 
 const Login = () => {
 
@@ -9,7 +10,35 @@ const Login = () => {
 
     const submitHandler = (e)=>{
         e.preventDefault();
-        console.log(`Form submitted email:${email} password:${password}`);   
+        console.log(`Form submitted email:${email} password:${password}`);
+        
+        const employeesData = getFromStorage('employees');
+        const adminsData = getFromStorage('admins');
+
+        let isAuthenticated = false;
+
+        for(let i=0;i<employeesData.length;i++){
+            if(employeesData[i].email===email && employeesData[i].password===password){
+                isAuthenticated = true
+                setToStorage('loggedInUser',employeesData[i]);
+                navigate('/employee');
+                break;
+            }
+        }
+        if(!isAuthenticated){
+            for(let i=0;i<adminsData.length;i++){
+                if(adminsData[i].email===email && adminsData[i].password===password){
+                    isAuthenticated = true;
+                    setToStorage('loggedInUser',adminsData[i]);
+                    navigate('/admin');
+                    break;
+                }
+            }
+        }
+        if(!isAuthenticated){
+            alert("Invalid email or password ❌");
+        }
+            
     }
   return (
     <div>

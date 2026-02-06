@@ -1,7 +1,14 @@
-import React from 'react'
+import React, { useState,useEffect } from 'react'
 import Employeesidebar from '../Components/Employeesidebar'
+import { getFromStorage,setToStorage } from '../Utilities/localStorage';
 
 const EmployeeDashboard = () => {
+
+  const[currentUser,setCurrentUser] = useState({});
+  useEffect(() => {
+      setCurrentUser(getFromStorage('loggedInUser'));
+    }, [])
+
   return (
     <div className="flex min-h-screen bg-gray-50">
       <Employeesidebar/>
@@ -16,7 +23,7 @@ const EmployeeDashboard = () => {
         {/* Page Content */}
         <div className="p-4 sm:p-6">
           <h1 className="text-2xl sm:text-3xl font-semibold mt-2">
-            Welcome, Employee!
+            Welcome, {currentUser.name}!
           </h1>
 
           {/* Stats Cards */}
@@ -40,13 +47,13 @@ const EmployeeDashboard = () => {
           {/* Assigned Tasks */}
           <div className="bg-white shadow-md rounded-lg mt-10 overflow-hidden">
             <h1 className="text-xl sm:text-2xl font-semibold px-4 py-4 border-b">
-              Your Tasks
+              Tasks
             </h1>
 
             {/* Table Header (Desktop only) */}
             <div className="hidden md:flex bg-gray-100 px-4 py-3 font-medium">
               <span className="w-1/3">Task</span>
-              <span className="w-1/3">Assigned To</span>
+              <span className="w-1/3">Assigned By</span>
               <span className="w-1/3 px-3">Status</span>
             </div>
 
@@ -58,7 +65,7 @@ const EmployeeDashboard = () => {
               </div>
 
               <div className="md:w-1/3">
-                <p className="text-sm text-gray-500 md:hidden">Assigned To</p>
+                <p className="text-sm text-gray-500 md:hidden">Assigned By</p>
                 <p>Shaik</p>
               </div>
 
