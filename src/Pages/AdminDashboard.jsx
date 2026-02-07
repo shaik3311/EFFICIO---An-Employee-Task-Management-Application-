@@ -1,14 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Adminsidebar from "../Components/Adminsidebar";
-import { getFromStorage } from "../Utilities/localStorage";
 
 const AdminDashboard = () => {
-  const [currentUser,setCurrentUser] = useState({});
-  useEffect(() => {
-    setCurrentUser(getFromStorage('loggedInUser'));
-  }, [])
-
-  console.log(currentUser);
   
   
   return (

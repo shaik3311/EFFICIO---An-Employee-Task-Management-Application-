@@ -1,13 +1,7 @@
 import React, { useState,useEffect } from 'react'
 import Employeesidebar from '../Components/Employeesidebar'
-import { getFromStorage,setToStorage } from '../Utilities/localStorage';
 
 const EmployeeDashboard = () => {
-
-  const[currentUser,setCurrentUser] = useState({});
-  useEffect(() => {
-      setCurrentUser(getFromStorage('loggedInUser'));
-    }, [])
 
   return (
     <div className="flex min-h-screen bg-gray-50">

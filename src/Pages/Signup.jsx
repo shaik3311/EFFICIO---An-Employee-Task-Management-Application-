@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import {Link,useNavigate, useNavigation} from 'react-router-dom'
-import { getFromStorage, setToStorage } from '../Utilities/localStorage';
-
 
 const Signup = () => {
     const [name,setName] = useState('');

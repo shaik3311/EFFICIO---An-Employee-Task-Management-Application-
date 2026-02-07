@@ -8,12 +8,8 @@ import AdminTaskManagement from './Components/AdminTaskManagement'
 import AdminEmployeeManagement from './Components/AdminEmployeeManagement'
 import EmployeeDashboard from './Pages/EmployeeDashboard'
 import EmployeeTasks from './Components/EmployeeTasks'
-import { setToStorage,getFromStorage } from './Utilities/localStorage'
 
 const App = () => {
-  useEffect(() => {
-    setToStorage();
-  },)
   
 
   return (
