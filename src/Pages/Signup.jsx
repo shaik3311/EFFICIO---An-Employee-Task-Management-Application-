@@ -1,55 +1,91 @@
-import React, { useEffect, useState } from 'react'
-import {Link,useNavigate, useNavigation} from 'react-router-dom'
+import React, { useContext, useEffect, useState } from 'react'
+import {Link,useNavigate} from 'react-router-dom'
+import { DataContext } from '../Context/DataProvider';
 
 const Signup = () => {
-    const [name,setName] = useState('');
+    const{employees,admins,addEmployee,addAdmin} = useContext(DataContext);
+    const[name,setName] = useState('');
     const[email,setEmail] = useState('');
     const[password,setPassword] = useState('');
     const[isAdmin,setIsAdmin] = useState(false);
+    const[userNameAvailability,setUserNameAvailability] = useState(false);
+    const[userNameAvailabilityMsg,setUserNameAvailabilityMsg] = useState(null);
     const navigate = useNavigate();
-    const[employees,setEmployees] = useState([]);
-    const[admins,setAdmins] = useState([]);
 
+    // console.log(employees,admins,addAdmin,addEmployee);
+    //-------------------------------------- Unique name search start ---------------------------------------------------------
+    const checkUserNameAvailability = (name)=>{
+        setUserNameAvailability(false);
+        if(name.length<4){
+            setUserNameAvailabilityMsg(
+                <p className='text-red-600'>Username must be at least 4 characters</p>
+            );
+            return;
+        }
+        const taken = employees.some(emp=>emp.userName == name) || admins.some(admin=>admin.userName == name);
 
-    // sigup handling 
+        if(taken){
+            setUserNameAvailabilityMsg(
+                <p className='text-red-600'>Username is already taken</p>
+            );
+        }else{
+            setUserNameAvailabilityMsg(
+                <p className='text-green-600'>Username is available</p>
+            );
+            setUserNameAvailability(true);
+        }
+    }
+    //-------------------------------------- Unique name search end ---------------------------------------------------------
+
+    
+    //-------------------------------------- sigup handling start ------------------------------------------------------
+    const validateForm = (form)=>{
+        if(!form.userName || !form.email || !form.password || !userNameAvailability){
+            alert("Enter the proper details to proceed");
+            return false;
+        }
+        return true;
+    }
     const submitHandler = (e)=>{
         e.preventDefault();
         console.log(`Account created with Name:${name} email:${email} password:${password} IsAdmin:${isAdmin}`);
         if(isAdmin){
-            const adminData = getFromStorage('admin');
-            const newAdminData = [...adminData];
             const newAdmin = {
-                "id":crypto.randomUUID(),
-                "name":name,
+                "userName":name,
                 "email":email,
                 "password":password,
                 "isAdmin":isAdmin
             }
-            newAdminData.push(newAdmin);
-            setToStorage('admins',newAdminData);
-            navigate('/login');
+            if(validateForm(newAdmin)){
+                addAdmin(newAdmin);
+                navigate('/login');
+            }else{
+                alert("Enter details properly");
+            }
+            
         }else{
-            const employeeData = getFromStorage('employee');
-            const newEmployeeData = [...employeeData];
             const newEmployee = {
-                "id":crypto.randomUUID(),
-                "name":name,
+                "userName":name,
                 "email":email,
                 "password":password,
                 "isAdmin":isAdmin,
                 "tasks":[]
             }
-            newEmployeeData.push(newEmployee);
-            setToStorage('employees',newEmployeeData);
-            navigate('/login');
+            if(validateForm(newEmployee)){
+                addEmployee(newEmployee);
+                navigate('/login');
+            }  else{
+                alert("Enter details properly");
+            }
         }
         
         setName('');
         setEmail('');
         setPassword('');
         setIsAdmin(false);
-
+        setUserNameAvailabilityMsg(null);
     }
+    //-------------------------------------- sigup handling end ------------------------------------------------------
 
 
 
@@ -86,10 +122,12 @@ const Signup = () => {
                     value={name}
                     onChange={(e)=>{
                         setName(e.target.value);
+                        checkUserNameAvailability(e.target.value)
                     }}
                     placeholder="Name"
                     className="w-full px-4 py-2 bg-white rounded-md outline-none focus:ring-2 focus:ring-blue-400"
                     />
+                    {userNameAvailabilityMsg}
                 </div>
 
                 {/* Email input  */}
