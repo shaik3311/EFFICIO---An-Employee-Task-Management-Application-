@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
@@ -8,15 +8,17 @@ import {
   Menu,
   X,
 } from "lucide-react";
+import { DataContext } from "../Context/DataProvider";
 
 const AdminSidebar = () => {
+  const{removeLoggedUser} = useContext(DataContext);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
   
   // logout handling 
   const handleLogOut = () => {
-    localStorage.removeItem("loggedInUser");
+    removeLoggedUser();
     navigate('/login');
   }
 

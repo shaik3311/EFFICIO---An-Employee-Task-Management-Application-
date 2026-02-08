@@ -1,21 +1,73 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Adminsidebar from "../Components/Adminsidebar";
 import { Plus, X } from "lucide-react";
+import { DataContext } from "../Context/DataProvider";
 
 const AdminTasks = () => {
-  const [open, setOpen] = useState(false);
-  const [openEdit, setOpenEdit] = useState(false);
+  const{allTasks,allEmployeeNames,loggedInUser,addTask,replaceTask,removeTask} = useContext(DataContext);
+  const[open, setOpen] = useState(false);
+  const[openEdit, setOpenEdit] = useState(false);
   const[task,setTask] = useState('');
   const[assign,setAssign] = useState('');
   const[description,setDescription] = useState('');
+  const[selectedTask,setSelectedTask] = useState({});
+  const[taskEdited,setTaskEdited] = useState('');
+  const[assignEdited,setAssignEdited] = useState('');
+  const[descriptionEdited,setDescriptionEdited] = useState('');
+  const[statusEdited,setStatusEdited] = useState('');
+  
 
   const submitHandler = (e)=>{
     e.preventDefault();
     console.log(`new task:${task} is created and assigned for ${assign}`);
+
+    const newTask = {
+      task_id : crypto.randomUUID(),
+      task_title : task,
+      task_assigned_to: assign,
+      task_assigned_by: loggedInUser.userName,
+      task_description : description,
+      task_status : "Pending"
+    }
+    addTask(newTask);
+
     setTask('');
     setAssign('');
     setDescription('');
+    setOpen(false);
   }
+  const editHandler = (e)=>{
+    e.preventDefault();
+    // console.log(selectedTask);
+    const newTask = {
+      task_id : selectedTask.task_id,
+      task_title : taskEdited,
+      task_assigned_to: assignEdited,
+      task_assigned_by: loggedInUser.userName,
+      task_description : descriptionEdited,
+      task_status : statusEdited
+    }
+    replaceTask(selectedTask.task_id,newTask);
+    setTaskEdited('');
+    setAssignEdited('');
+    setDescriptionEdited('');
+    setStatusEdited('');
+    setOpenEdit(false);
+    setSelectedTask({}); 
+  }
+  const getStatusClasses = (status) => {
+    switch (status) {
+      case "Pending":
+        return "bg-orange-100 text-orange-700";
+      case "Inprogress":
+        return "bg-yellow-100 text-yellow-700";
+      case "Completed":
+        return "bg-green-100 text-green-700";
+      default:
+        return "bg-gray-100 text-gray-700";
+    }
+  };
+
 
   return (
     <div className="flex min-h-screen bg-gray-50">
@@ -48,37 +100,48 @@ const AdminTasks = () => {
             </div>
 
             {/* Task Row */}
-            <div className="flex flex-col md:flex-row gap-4 md:gap-0 px-4 py-4 border-b">
-              <div className="md:w-1/4">
-                <p className="text-sm text-gray-500 md:hidden">Task</p>
-                <p className="font-medium">UI Design</p>
-              </div>
+            {allTasks.map((task)=>{
+              return <div key={task.task_id} className="flex flex-col md:flex-row gap-4 md:gap-0 px-4 py-4 border-b">
+                        <div className="md:w-1/4">
+                          <p className="text-sm text-gray-500 md:hidden">Task</p>
+                          <p className="font-medium">{task.task_title}</p>
+                        </div>
 
-              <div className="md:w-1/4">
-                <p className="text-sm text-gray-500 md:hidden">Assigned To</p>
-                <p>Shaik</p>
-              </div>
+                        <div className="md:w-1/4">
+                          <p className="text-sm text-gray-500 md:hidden">Assigned To</p>
+                          <p>{task.task_assigned_to}</p>
+                        </div>
 
-              <div className="md:w-1/4">
-                <p className="text-sm text-gray-500 md:hidden ">Status</p>
-                <span className="px-1 py-1 rounded-full bg-yellow-100 text-yellow-700 text-sm">
-                  Pending
-                </span>
-              </div>
+                        <div className="md:w-1/4">
+                          <p className="text-sm text-gray-500 md:hidden ">Status</p>
+                          <span className={`px-2 py-1 rounded-full text-sm capitalize ${getStatusClasses(task.task_status)}`}>
+                            {task.task_status}
+                          </span>
+                        </div>
 
-              <div className="md:w-1/4 flex gap-3 md:justify-center">
-                <button
-                 onClick={()=>{
-                  setOpenEdit(true);
-                 }}
-                 className="px-4 py-2 bg-gray-200 rounded-lg text-sm hover:bg-gray-300">
-                  Edit
-                </button>
-                <button className="px-4 py-2 bg-red-200 text-red-700 rounded-lg text-sm hover:bg-red-300">
-                  Delete
-                </button>
-              </div>
-            </div>
+                        <div className="md:w-1/4 flex gap-3 md:justify-center">
+                          <button
+                          onClick={(e)=>{
+                            setOpenEdit(true);
+                            setSelectedTask(task);
+                            setTaskEdited(task.task_title);
+                            setAssignEdited(task.task_assigned_to);
+                            setDescriptionEdited(task.task_description);
+                            setStatusEdited(task.task_status);
+                          }}
+                          className="px-4 py-2 bg-gray-200 rounded-lg text-sm hover:bg-gray-300">
+                            Edit
+                          </button>
+                          <button
+                            onClick={()=>{
+                              removeTask(task.task_id);
+                            }}
+                           className="px-4 py-2 bg-red-200 text-red-700 rounded-lg text-sm hover:bg-red-300 active:scale-95">
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+              })}
             
           </div>
         </div>
@@ -90,7 +153,10 @@ const AdminTasks = () => {
           <div className="bg-white w-[90%] sm:w-[420px] rounded-lg p-6">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold">Add New Task</h2>
-              <button onClick={() => setOpen(false)}>
+              <button onClick={() => {
+                setOpen(false)
+                setSelectedTask({});
+              }}>
                 <X />
               </button>
             </div>
@@ -102,6 +168,7 @@ const AdminTasks = () => {
               }
              className="flex flex-col gap-4">
               <input
+                required
                 type="text"
                 value={task}
                 onChange={(e)=>{
@@ -112,17 +179,20 @@ const AdminTasks = () => {
               />
 
               <select
+              required
               value={assign}
               onChange={(e)=>{
                 setAssign(e.target.value);
               }}
               className="border px-4 py-2 rounded-lg outline-none">
                 <option>Assign to Employee</option>
-                <option>Shaik</option>
-                <option>Rahul</option>
+                {allEmployeeNames.map((name,idx)=>{
+                  return <option key={idx}>{name}</option>
+                })}
               </select>
 
               <textarea
+                required
                 value={description}
                 onChange={(e)=>{
                   setDescription(e.target.value);
@@ -155,34 +225,35 @@ const AdminTasks = () => {
 
             <form
               onSubmit={(e)=>{
-                  submitHandler(e);
+                  editHandler(e);
                 }
               }
              className="flex flex-col gap-4">
               <input
                 type="text"
-                value={task}
+                value={taskEdited}
                 onChange={(e)=>{
-                  setTask(e.target.value);
+                  setTaskEdited(e.target.value);
                 }}
                 placeholder="Task Title"
                 className="border px-4 py-2 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
               />
 
               <select
-              value={assign}
+              value={assignEdited}
               onChange={(e)=>{
-                setAssign(e.target.value);
+                setAssignEdited(e.target.value);
               }}
               className="border px-4 py-2 rounded-lg outline-none">
                 <option>Assign to Employee</option>
-                <option>Shaik</option>
-                <option>Rahul</option>
+                {allEmployeeNames.map((name,idx)=>{
+                  return <option key={idx}>{name}</option>
+                })}
               </select>
               <select
-              value={assign}
+              value={statusEdited}
               onChange={(e)=>{
-                setAssign(e.target.value);
+                setStatusEdited(e.target.value);
               }}
               className="border px-4 py-2 rounded-lg outline-none">
                 <option>Status of the task</option>
@@ -192,9 +263,9 @@ const AdminTasks = () => {
               </select>
 
               <textarea
-                value={description}
+                value={descriptionEdited}
                 onChange={(e)=>{
-                  setDescription(e.target.value);
+                  setDescriptionEdited(e.target.value);
                 }}
                 placeholder="Task Description"
                 rows="3"
