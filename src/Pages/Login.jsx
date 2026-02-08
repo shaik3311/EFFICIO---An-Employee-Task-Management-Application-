@@ -1,34 +1,34 @@
-import React, { useState } from 'react'
+import React, { useState,useContext } from 'react'
 import {Link,useNavigate} from 'react-router-dom'
+import { DataContext } from '../Context/DataProvider';
 
 const Login = () => {
-
+    const{employees,admins,setLoggedUser,removeLoggedUser} = useContext(DataContext)
     const[email,setEmail] = useState('');
     const[password,setPassword] = useState('');
     const navigate = useNavigate();
 
+    //----------------------------- logIn Handler start --------------------------------------------------------------
+    
     const submitHandler = (e)=>{
         e.preventDefault();
         console.log(`Form submitted email:${email} password:${password}`);
-        
-        const employeesData = getFromStorage('employees');
-        const adminsData = getFromStorage('admins');
 
         let isAuthenticated = false;
 
-        for(let i=0;i<employeesData.length;i++){
-            if(employeesData[i].email===email && employeesData[i].password===password){
+        for(let i=0;i<employees.length;i++){
+            if(employees[i].email===email && employees[i].password===password){
                 isAuthenticated = true
-                setToStorage('loggedInUser',employeesData[i]);
+                setLoggedUser(employees[i]);
                 navigate('/employee');
                 break;
             }
         }
         if(!isAuthenticated){
-            for(let i=0;i<adminsData.length;i++){
-                if(adminsData[i].email===email && adminsData[i].password===password){
+            for(let i=0;i<admins.length;i++){
+                if(admins[i].email===email && admins[i].password===password){
                     isAuthenticated = true;
-                    setToStorage('loggedInUser',adminsData[i]);
+                    setLoggedUser(admins[i]);
                     navigate('/admin');
                     break;
                 }
@@ -37,8 +37,9 @@ const Login = () => {
         if(!isAuthenticated){
             alert("Invalid email or password ❌");
         }
-            
+        
     }
+    //----------------------------- logIn Handler start --------------------------------------------------------------
   return (
     <div>
         <div className="flex justify-between items-center px-5 sm:px-10 lg:px-20 py-4 bg-white">

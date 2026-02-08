@@ -115,7 +115,7 @@ const Signup = () => {
                 {/* Name input  */}
                 <div className="mb-4">
                     <label className="block text-sm font-medium text-gray-200 mb-1">
-                        Name
+                        Username
                     </label>
                     <input
                     type="text"
@@ -124,7 +124,7 @@ const Signup = () => {
                         setName(e.target.value);
                         checkUserNameAvailability(e.target.value)
                     }}
-                    placeholder="Name"
+                    placeholder="Username"
                     className="w-full px-4 py-2 bg-white rounded-md outline-none focus:ring-2 focus:ring-blue-400"
                     />
                     {userNameAvailabilityMsg}

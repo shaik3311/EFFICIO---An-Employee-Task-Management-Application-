@@ -7,6 +7,7 @@ const DataProvider = ({children}) => {
 
     const[employees,setEmployees] = useState([]);
     const[admins,setAdmins] = useState([]);
+    const[loggedInUser,setLoggedInUser] = useState({});
 
 
 
@@ -36,7 +37,8 @@ const DataProvider = ({children}) => {
     useEffect(()=>{
         localStorage.setItem('employees',JSON.stringify(employees));
         localStorage.setItem('admins',JSON.stringify(admins));
-    },[employees,admins]);
+        localStorage.setItem('loggedInUser',JSON.stringify(loggedInUser));
+    },[employees,admins,loggedInUser]);
 
     const addAdmin = (admin)=>{
         const newAdmins = [...admins];
@@ -48,6 +50,12 @@ const DataProvider = ({children}) => {
         newEmployees.push(employee);
         setEmployees(newEmployees);
     };
+    const setLoggedUser = (user)=>{
+        setLoggedInUser(user);
+    };
+    const removeLoggedUser = ()=>{
+        setLoggedInUser({});
+    }
 
     
   return (
@@ -56,7 +64,9 @@ const DataProvider = ({children}) => {
             employees,
             admins,
             addAdmin,
-            addEmployee
+            addEmployee,
+            setLoggedUser,
+            removeLoggedUser
         }}>
             {children}
         </DataContext.Provider>
