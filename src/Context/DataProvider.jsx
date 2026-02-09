@@ -9,7 +9,11 @@ const DataProvider = ({children}) => {
     const[admins,setAdmins] = useState([]);
     const[allTasks,setAllTasks] = useState([]);
     const[allEmployeeNames,setAllEmployeeNames] = useState([]);
-    const[loggedInUser,setLoggedInUser] = useState({});
+    const [loggedInUser, setLoggedInUser] = useState(() => {
+        const storedUser = localStorage.getItem("loggedInUser");
+        return storedUser && storedUser !== "undefined"? JSON.parse(storedUser): null;
+    });
+
 
 
 
@@ -102,6 +106,15 @@ const DataProvider = ({children}) => {
         );
         setAllTasks(updatedTasks);
     };
+    const updateTaskStatus = (taskId, newStatus) => {
+        const updatedTasks = allTasks.map(task =>
+            task.id === taskId
+            ? { ...task, task_status: newStatus }
+            : task
+        );
+        setAllTasks(updatedTasks);
+    };
+
 
     
 
@@ -121,7 +134,8 @@ const DataProvider = ({children}) => {
             removeLoggedUser,
             addTask,
             removeTask,
-            replaceTask
+            replaceTask,
+            updateTaskStatus
         }}>
             {children}
         </DataContext.Provider>

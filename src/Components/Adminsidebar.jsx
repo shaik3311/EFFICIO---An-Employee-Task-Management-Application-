@@ -52,7 +52,7 @@ const AdminSidebar = () => {
           {/* Logo */}
           <div className="flex items-center justify-between pb-4">
             <div className="flex items-center gap-3">
-              <img src="/Logo.png" alt="logo" className="w-10" />
+              <img src='/Logo.png' alt="logo" className="w-10" />
               <h1 className="text-3xl font-bold text-white">EFFICIO</h1>
             </div>
 
