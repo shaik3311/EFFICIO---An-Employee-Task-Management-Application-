@@ -88,7 +88,7 @@ const AdminSidebar = () => {
         <button
           onClick={handleLogOut}
           className="flex items-center gap-3 px-4 py-3 rounded-lg
-          text-white hover:bg-red-500/80 transition-all"
+          text-white hover:bg-red-500/80 transition-all not-lg:mb-20"
         >
           <LogOut size={22} />
           Logout
